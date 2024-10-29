@@ -13,7 +13,7 @@ interface Todo {
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   //init pagination
   const itemsPerPage = 10;
@@ -23,10 +23,20 @@ export default function Home() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("https://jsonplaceholder.typicode.com/todo");
-      setTodos(res.data);
-    } catch (err) {
-      setError(err);
+      // Check if todos exists in localStorage
+      const cachedData = localStorage.getItem("todos");
+      if (cachedData) {
+        setTodos(JSON.parse(cachedData));
+      } else {
+        const res = await axios.get(
+          "https://jsonplaceholder.typicode.com/todos"
+        );
+        setTodos(res.data);
+        localStorage.setItem("todos", JSON.stringify(res.data)); // Save data -> localStorage
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -38,7 +48,7 @@ export default function Home() {
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred: {error.message}</div>;
+  if (error) return <div>An error occurred: {error}</div>;
 
   // set pagination
   const totalPages = Math.ceil(todos.length / itemsPerPage);
