@@ -14,12 +14,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header>
-          <h3 style={{ backgroundColor: "#ccc" }}>Header</h3>
+        <header className="bg-gray-300 p-4">
+          <h3>Header</h3>
         </header>
         {children}
         <footer>
-          <h3 style={{ backgroundColor: "#ccc" }}>Footer</h3>
+          <h3 className="bg-gray-300 p-4">Footer</h3>
         </footer>
       </body>
     </html>
