@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface Todo {
   userId: number;
@@ -11,20 +12,35 @@ interface Todo {
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  //init pagination
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
+  //API
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("https://jsonplaceholder.typicode.com/todo");
+      setTodos(res.data);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/todos")
-      .then((res) => {
-        setTodos(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    //call API when Component mount
+    fetchData();
   }, []);
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>An error occurred: {error.message}</div>;
+
+  // set pagination
   const totalPages = Math.ceil(todos.length / itemsPerPage);
 
   const currentItems = todos.slice(
@@ -44,6 +60,10 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1>List Todos</h1>
+        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700">
+          <Link href={"/details"}>Details Demo</Link>
+        </button>
+
         <table className="table-auto text-gray-900 border-collapse border border-slate-400">
           <thead>
             <tr>
@@ -55,7 +75,6 @@ export default function Home() {
           </thead>
           <tbody>
             {currentItems.map((item) => {
-              console.log(item);
               return (
                 <tr key={item.id}>
                   <td className="px-4 py-2 border border-slate-300 font-medium">
