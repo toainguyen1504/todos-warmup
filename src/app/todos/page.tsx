@@ -3,15 +3,10 @@ import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import AppTable from "@/components/app.table";
 
 function TodosPage() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,38 +72,7 @@ function TodosPage() {
       </button>
 
       {/* UI table */}
-      <table className="table-auto text-gray-900 border-collapse border border-slate-400">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 border border-slate-300">ID</th>
-            <th className="px-4 py-2 border border-slate-300">Title</th>
-            <th className="px-4 py-2 border border-slate-300">Status</th>
-            <th className="px-4 py-2 border border-slate-300">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((item) => {
-            return (
-              <tr key={item.id}>
-                <td className="px-4 py-2 border border-slate-300 font-medium">
-                  {item.id}
-                </td>
-                <td className="px-4 py-2 border border-slate-300">
-                  {item.title}
-                </td>
-                <td className="px-4 py-2 border border-slate-300 font-medium">
-                  {item.completed ? "Completed" : "Incomplete"}
-                </td>
-                <td className="px-4 py-2 border border-slate-300">
-                  <button className="bg-blue-500 text-white font-bold py-2 px-4 mx-3 my-3 rounded hover:bg-blue-700">
-                    <Link href={`/todos/${item.id}`}>View</Link>
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <AppTable currentItems={currentItems} />
 
       {/* UI pagination */}
       <div className="flex justify-center items-center space-x-2">

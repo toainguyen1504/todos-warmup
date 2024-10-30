@@ -3,15 +3,8 @@ import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-interface Todo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
 function ViewDetailTodos({ params }: { params: { id: string } }) {
-  const [todo, setTodo] = useState<Todo | null>(null);
+  const [todo, setTodo] = useState<ITodo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const id = params.id;

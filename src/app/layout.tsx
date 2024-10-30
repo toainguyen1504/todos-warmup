@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import AppHeader from "@/components/app.header";
+import AppFooter from "@/components/app.footer";
 
 export const metadata: Metadata = {
   title: "Todo list",
@@ -14,13 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="bg-gray-300 p-4">
-          <h3>Header</h3>
-        </header>
+        <AppHeader />
         {children}
-        <footer>
-          <h3 className="bg-gray-300 p-4">Footer</h3>
-        </footer>
+        <AppFooter />
       </body>
     </html>
   );
