@@ -9,8 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        transparent: "transparent",
+        current: "currentColor",
         background: "var(--background)",
         foreground: "var(--foreground)",
+        white: "#ffffff",
+        black: "#000000",
+        "text-color": "#605A5A",
+        "primary-color": "#DC4C3E",
+        "active-color": "#FFEFE5",
+        "hover-color": "#f2efed",
+        "sidebar-color": "#fcfaf8",
       },
     },
   },
