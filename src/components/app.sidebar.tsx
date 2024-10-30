@@ -3,7 +3,7 @@ import profilePic from "../../public/avatar2.png";
 import { FaAngleDown } from "react-icons/fa6";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { RiNotification2Line } from "react-icons/ri";
-import { CiSearch } from "react-icons/ci";
+import { CiSearch, CiViewTable } from "react-icons/ci";
 import { IoMdAddCircle } from "react-icons/io";
 import { WiDaySunny } from "react-icons/wi";
 import { LuCalendarDays } from "react-icons/lu";
@@ -46,6 +46,7 @@ function AppSidebar() {
             Add task
           </span>
         </button>
+
         <button className="flex w-full items-center hover:bg-hover-color rounded">
           <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
             <CiSearch />
@@ -53,13 +54,24 @@ function AppSidebar() {
           <span className="ml-2 text-text-color">Search</span>
         </button>
 
+        <div className="flex w-full items-center hover:bg-hover-color rounded">
+          <a href="#" className="w-full flex items-center">
+            <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
+              <CiViewTable />
+            </span>
+            <span className="ml-2 text-text-color">Todos</span>
+          </a>
+        </div>
+
         <div>
           <div className="flex w-full items-center hover:bg-hover-color rounded">
-            <a href="#" className="w-full flex items-center">
-              <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
+            {/* Active: text-primary-color */}
+            <a href="#" className="w-full flex items-center bg-active-color">
+              <span className="h-8 w-8 rounded flex items-center justify-center text-primary-color">
                 <WiDaySunny />
               </span>
-              <span className="ml-2 text-text-color">Today</span>
+              <span className="flex-grow ml-2 text-primary-color">Today</span>
+              <span className="px-2 py-1 text-xs text-primary-color">2</span>
             </a>
           </div>
           <div className="flex w-full items-center hover:bg-hover-color rounded">
@@ -67,7 +79,8 @@ function AppSidebar() {
               <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
                 <LuCalendarDays />
               </span>
-              <span className="ml-2 text-text-color">Upcoming</span>
+              <span className="flex-grow ml-2 text-text-color">Upcoming</span>
+              <span className="px-2 py-1 text-xs text-text-color">2</span>
             </a>
           </div>
         </div>
