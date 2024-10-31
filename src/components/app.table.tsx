@@ -11,31 +11,45 @@ function AppTable(props: IProps) {
   return (
     <>
       {/* UI table */}
-      <table className="table-auto text-gray-900 border-collapse border border-slate-400">
+      <table className=" table-auto w-full text-center text-gray-900 border-collapse border border-slate-400">
         <thead>
-          <tr>
-            <th className="px-4 py-2 border border-slate-300">ID</th>
-            <th className="px-4 py-2 border border-slate-300">Title</th>
+          <tr className="font-semibold">
+            <th className="w-14 px-4 py-2 border border-slate-300">ID</th>
+            <th className="min-w-[200px] px-4 py-2 border border-slate-300">
+              Title
+            </th>
             <th className="px-4 py-2 border border-slate-300">Status</th>
-            <th className="px-4 py-2 border border-slate-300">Actions</th>
+            <th className="w-64 px-4 py-2 border border-slate-300">Actions</th>
           </tr>
         </thead>
         <tbody>
           {currentItems.map((item) => {
             return (
               <tr key={item.id}>
-                <td className="px-4 py-2 border border-slate-300 font-medium">
+                <td className="w-16 px-4 py-2 border border-slate-300 font-semibold">
                   {item.id}
                 </td>
-                <td className="px-4 py-2 border border-slate-300">
-                  {item.title}
+                <td className="min-w-[200px] px-4 py-2 border border-slate-300">
+                  {item.title.length > 15
+                    ? item.title.slice(0, 15) + "..."
+                    : item.title}
                 </td>
-                <td className="px-4 py-2 border border-slate-300 font-medium">
+                <td
+                  className={`px-4 py-2 border border-slate-300 font-medium ${
+                    item.completed ? "text-green-600" : "text-red-600"
+                  }`}
+                >
                   {item.completed ? "Completed" : "Incomplete"}
                 </td>
-                <td className="px-4 py-2 border border-slate-300">
-                  <button className="bg-blue-500 text-white font-bold py-2 px-4 mx-3 my-3 rounded hover:bg-blue-700">
+                <td className="w-72 px-4 py-2 border border-slate-300">
+                  <button className="bg-secondary-color text-white font-bold py-2 px-3 mx-2 rounded hover:bg-secondary-light-color">
                     <Link href={`/todos/${item.id}`}>View</Link>
+                  </button>
+                  <button className="bg-warm-color text-white font-bold py-2 px-3 mx-2 rounded hover:bg-warm-light-color">
+                    <Link href={`/todos/${item.id}`}>Edit</Link>
+                  </button>
+                  <button className="bg-danger-color text-white font-bold py-2 px-3 mx-2 rounded hover:bg-danger-light-color">
+                    <Link href={`/todos/${item.id}`}>Delete</Link>
                   </button>
                 </td>
               </tr>

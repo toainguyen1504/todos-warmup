@@ -15,12 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="font-[family-name:var(--font-geist-sans)]">
       <body>
         {/* <AppHeader /> */}
-        <div className="flex">
+
+        <div className="flex justify-center">
           <AppSidebar />
-          <div className="flex-1 bg-white"> {children}</div>
+          <div className="flex-1 container mx-auto bg-white">{children}</div>
         </div>
 
         {/* <AppFooter /> */}

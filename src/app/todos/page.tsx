@@ -4,6 +4,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import AppTable from "@/components/app.table";
+//icon libary
+import { FaCaretSquareLeft, FaCaretSquareRight } from "react-icons/fa";
 
 function TodosPage() {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -11,7 +13,7 @@ function TodosPage() {
   const [error, setError] = useState<string | null>(null);
 
   //init pagination
-  const itemsPerPage = 10;
+  const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
   //API
@@ -53,6 +55,7 @@ function TodosPage() {
     currentPage * itemsPerPage
   );
 
+  //logic previous next
   const goToPreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
@@ -60,38 +63,187 @@ function TodosPage() {
   const goToNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
-  return (
-    <div className="px-5">
-      <h1 className="my-5 font-bold">List Todos</h1>
-      <button className="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-700">
-        <Link href={"/"}>Back Home</Link>
-      </button>
 
-      <button className="bg-gray-500 text-white font-bold py-2 px-4 mx-3 my-3 rounded hover:bg-gray-700">
-        Add Todo
-      </button>
+  // Logic for pagination buttons
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    const totalDisplay = 10; // Total buttons to display
+
+    if (totalPages <= totalDisplay) {
+      for (let i = 1; i <= totalPages; i++) {
+        buttons.push(
+          <button
+            key={i}
+            onClick={() => setCurrentPage(i)}
+            className={`w-12 px-2 py-2 rounded ${
+              currentPage === i
+                ? "bg-primary-color text-white"
+                : " text-text-color hover:bg-hover-color"
+            }`}
+          >
+            {i}
+          </button>
+        );
+      }
+    } else {
+      // Create pagination based on the current page
+      if (currentPage < 4) {
+        // Show first pages
+        for (let i = 1; i <= 6; i++) {
+          buttons.push(
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i)}
+              className={`w-12 px-2 py-2 rounded ${
+                currentPage === i
+                  ? "bg-primary-color text-white"
+                  : " text-text-color hover:bg-hover-color"
+              }`}
+            >
+              {i}
+            </button>
+          );
+        }
+        buttons.push(<span key="dot">...</span>);
+        buttons.push(
+          <button
+            key={totalPages}
+            onClick={() => setCurrentPage(totalPages)}
+            className={`w-12 px-2 py-2 rounded ${
+              currentPage === totalPages
+                ? "bg-primary-color text-white"
+                : " text-text-color hover:bg-hover-color"
+            }`}
+          >
+            {totalPages}
+          </button>
+        );
+      } else if (currentPage >= totalPages - 3) {
+        // Show last pages
+        buttons.push(
+          <button
+            key={1}
+            onClick={() => setCurrentPage(1)}
+            className={`w-12 px-2 py-2 rounded ${
+              currentPage === 1
+                ? "bg-primary-color text-white"
+                : " text-text-color hover:bg-hover-color"
+            }`}
+          >
+            {1}
+          </button>
+        );
+        buttons.push(<span key="dot">...</span>);
+        for (let i = totalPages - 5; i <= totalPages; i++) {
+          buttons.push(
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i)}
+              className={`w-12 px-2 py-2 rounded ${
+                currentPage === i
+                  ? "bg-primary-color text-white"
+                  : " text-text-color hover:bg-hover-color"
+              }`}
+            >
+              {i}
+            </button>
+          );
+        }
+      } else {
+        // Show middle pages with dots
+        buttons.push(
+          <button
+            key={1}
+            onClick={() => setCurrentPage(1)}
+            className={` w-12 px-2 py-2 rounded ${
+              currentPage === 1
+                ? "bg-primary-color text-white"
+                : " text-text-color hover:bg-hover-color"
+            }`}
+          >
+            {1}
+          </button>
+        );
+        buttons.push(<span key="dot1">...</span>);
+
+        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
+          if (i > 0 && i <= totalPages) {
+            buttons.push(
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i)}
+                className={`w-12 px-2 py-2 rounded ${
+                  currentPage === i
+                    ? "bg-primary-color text-white"
+                    : " text-text-color hover:bg-hover-color"
+                }`}
+              >
+                {i}
+              </button>
+            );
+          }
+        }
+
+        buttons.push(<span key="dot2">...</span>);
+        buttons.push(
+          <button
+            key={totalPages}
+            onClick={() => setCurrentPage(totalPages)}
+            className={`w-12 px-2 py-2 rounded ${
+              currentPage === totalPages
+                ? "bg-primary-color text-white"
+                : " text-text-color hover:bg-hover-color"
+            }`}
+          >
+            {totalPages}
+          </button>
+        );
+      }
+    }
+
+    return buttons;
+  };
+  return (
+    <div className="h-screen flex flex-col px-5 pt-10">
+      <div className="flex justify-between items-center pb-3">
+        <nav className="flex items-center">
+          <span className="text-lg font-bold py-2 px-4 rounded text-primary-color hover:text-primary-light-color">
+            <Link href={"/"} passHref>
+              Home /
+            </Link>
+          </span>
+          <h1 className="text-sm font-semibold">Todos Table</h1>
+        </nav>
+        <div className="action">
+          <button className="bg-primary-color text-sm text-white font-bold py-2 px-4 my-2 rounded hover:bg-primary-light-color">
+            Add Todo
+          </button>
+        </div>
+      </div>
 
       {/* UI table */}
-      <AppTable currentItems={currentItems} />
+      <div className="flex-grow">
+        <AppTable currentItems={currentItems} />
+      </div>
 
       {/* UI pagination */}
-      <div className="flex justify-center items-center space-x-2">
+      <div className="flex items-center justify-center mt-4 mb-16">
         <button
           onClick={goToPreviousPage}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+          className="px-4 py-2 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
         >
-          Previous
+          <FaCaretSquareLeft size={28} />
         </button>
-        <span className="font-semibold">
-          Page {currentPage} of {totalPages}
-        </span>
+
+        {renderPaginationButtons()}
+
         <button
           onClick={goToNextPage}
           disabled={currentPage === totalPages}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+          className="px-4 py-1 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
         >
-          Next
+          <FaCaretSquareRight size={28} />
         </button>
       </div>
     </div>

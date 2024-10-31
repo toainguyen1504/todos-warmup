@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import profilePic from "../../public/avatar2.png";
 import { FaAngleDown } from "react-icons/fa6";
@@ -42,7 +43,7 @@ function AppSidebar() {
           <span className="h-8 w-8 rounded flex items-center justify-center text-primary-color">
             <IoMdAddCircle />
           </span>
-          <span className="font-semibold ml-2 text-primary-color">
+          <span className="flex-1 text-start font-semibold ml-2 text-primary-color">
             Add task
           </span>
         </button>
@@ -51,28 +52,35 @@ function AppSidebar() {
           <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
             <CiSearch />
           </span>
-          <span className="ml-2 text-text-color">Search</span>
+          <span className="flex-1 text-start ml-2 text-text-color">Search</span>
         </button>
 
-        <div className="flex w-full items-center hover:bg-hover-color rounded">
-          <a href="#" className="w-full flex items-center">
-            <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
-              <CiViewTable />
-            </span>
-            <span className="ml-2 text-text-color">Todos</span>
-          </a>
+        <div className="w-full hover:bg-hover-color rounded">
+          <Link href="/todos" passHref>
+            <div className="w-full flex items-center">
+              <span className="h-8 w-8 rounded flex items-center justify-center text-text-color">
+                <CiViewTable />
+              </span>
+              <span className="ml-2 flex-grow text-text-color">Todos</span>
+            </div>
+          </Link>
         </div>
 
         <div>
           <div className="flex w-full items-center hover:bg-hover-color rounded">
             {/* Active: text-primary-color */}
-            <a href="#" className="w-full flex items-center bg-active-color">
-              <span className="h-8 w-8 rounded flex items-center justify-center text-primary-color">
-                <WiDaySunny />
-              </span>
-              <span className="flex-grow ml-2 text-primary-color">Today</span>
-              <span className="px-2 py-1 text-xs text-primary-color">2</span>
-            </a>
+
+            <div className="w-full bg-active-color text-primary-color">
+              <Link href="/today" passHref>
+                <div className="flex items-center">
+                  <span className="h-8 w-8 rounded flex items-center justify-center ">
+                    <WiDaySunny />
+                  </span>
+                  <span className="flex-grow ml-2">Today</span>
+                  <span className="px-2 py-1 text-xs">2</span>
+                </div>
+              </Link>
+            </div>
           </div>
           <div className="flex w-full items-center hover:bg-hover-color rounded">
             <a href="#" className="w-full flex items-center">
