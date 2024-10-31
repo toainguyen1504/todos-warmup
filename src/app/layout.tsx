@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         {/* <AppHeader /> */}
 
-        <div className="flex justify-center">
+        <div className="h-screen flex justify-center">
           <AppSidebar />
           <div className="flex-1 container mx-auto bg-white">{children}</div>
         </div>

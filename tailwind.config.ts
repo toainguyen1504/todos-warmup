@@ -27,6 +27,8 @@ const config: Config = {
         "warm-light-color": "#fcd34d",
         "danger-color": "#dc2626",
         "danger-light-color": "#ef4444",
+        "success-color": "#16a34a",
+        "success-light-color": "#4ade80",
       },
       container: {
         padding: {

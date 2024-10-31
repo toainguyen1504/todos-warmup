@@ -6,6 +6,8 @@ import React, { useEffect, useState } from "react";
 import AppTable from "@/components/app.table";
 //icon libary
 import { FaCaretSquareLeft, FaCaretSquareRight } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa6";
+import { CiHome } from "react-icons/ci";
 
 function TodosPage() {
   const [todos, setTodos] = useState<ITodo[]>([]);
@@ -207,12 +209,16 @@ function TodosPage() {
     <div className="h-screen flex flex-col px-5 pt-10">
       <div className="flex justify-between items-center pb-3">
         <nav className="flex items-center">
-          <span className="text-lg font-bold py-2 px-4 rounded text-primary-color hover:text-primary-light-color">
+          <span className="flex items-center text-lg font-bold py-2 pl-4 rounded text-primary-color hover:text-primary-light-color">
+            <CiHome />
             <Link href={"/"} passHref>
-              Home /
+              Home
             </Link>
+            <FaAngleRight />
           </span>
-          <h1 className="text-sm font-semibold">Todos Table</h1>
+          <span className="flex items-center text-base font-semibold py-2 ml-1 rounded text-text-color">
+            Todo&nbsp;List
+          </span>
         </nav>
         <div className="action">
           <button className="bg-primary-color text-sm text-white font-bold py-2 px-4 my-2 rounded hover:bg-primary-light-color">
