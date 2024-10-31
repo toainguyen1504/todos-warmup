@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+
 import "./globals.css";
-// import AppHeader from "@/components/app.header";
-// import AppFooter from "@/components/app.footer";
 import AppSidebar from "@/components/app.sidebar";
 
 export const metadata: Metadata = {
@@ -17,14 +16,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="font-[family-name:var(--font-geist-sans)]">
       <body>
-        {/* <AppHeader /> */}
-
         <div className="h-screen flex justify-center">
-          <AppSidebar />
+          {/* Sidebar */}
+          <div className="sidebar-container lg:flex hidden">
+            <AppSidebar />
+          </div>
+
+          {/* Container */}
           <div className="flex-1 container mx-auto bg-white">{children}</div>
         </div>
-
-        {/* <AppFooter /> */}
       </body>
     </html>
   );

@@ -2,6 +2,8 @@
 import Link from "next/link";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import AppTable from "@/components/app.table";
 //icon libary
@@ -21,6 +23,7 @@ function TodosPage() {
   //API
   const fetchData = async () => {
     setLoading(true);
+
     try {
       // Check if todos exists in localStorage
       const cachedData = localStorage.getItem("todos");
@@ -32,10 +35,11 @@ function TodosPage() {
         );
         setTodos(res.data);
         localStorage.setItem("todos", JSON.stringify(res.data)); // Save data -> localStorage
+        toast.success("Data fetched successfully!");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setError(err.message || "An error occurred");
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -46,8 +50,22 @@ function TodosPage() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred: {error}</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-color border-opacity-50"></div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-center font-semibold text-lg">
+          Something went wrong. Please contact your administrator for
+          assistance:
+          <span className="text-danger-color font-medium mx-3">{error}</span>
+        </p>
+      </div>
+    );
 
   // set pagination
   const totalPages = Math.ceil(todos.length / itemsPerPage);
@@ -207,10 +225,11 @@ function TodosPage() {
   };
   return (
     <div className="h-screen flex flex-col px-5 pt-10">
+      <ToastContainer />
       <div className="flex justify-between items-center pb-3">
         <nav className="flex items-center">
           <span className="flex items-center text-lg font-bold py-2 pl-4 rounded text-primary-color hover:text-primary-light-color">
-            <CiHome />
+            <CiHome className="mr-1" />
             <Link href={"/"} passHref>
               Home
             </Link>

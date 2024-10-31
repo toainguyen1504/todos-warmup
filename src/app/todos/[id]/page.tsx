@@ -23,9 +23,9 @@ function ViewDetailTodos({ params }: { params: { id: string } }) {
 
       setTodo(res.data);
       console.log(res.data);
-    } catch (err) {
-      setError("Error fetching todo data");
-      console.error("Error fetching todo:", err);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -37,9 +37,23 @@ function ViewDetailTodos({ params }: { params: { id: string } }) {
     }
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
-  if (!todo) return <div>No data available</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary-color border-opacity-50"></div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p className="text-center font-semibold text-lg">
+          Something went wrong. Please contact your administrator for
+          assistance:
+          <span className="text-danger-color font-medium mx-3">{error}</span>
+        </p>
+      </div>
+    );
+  if (!todo) return;
 
   return (
     <div className="h-screen flex flex-col px-5 pt-10">
@@ -47,7 +61,7 @@ function ViewDetailTodos({ params }: { params: { id: string } }) {
       <div className="flex justify-between items-center py-3">
         <nav className="flex items-center">
           <span className="flex items-center text-lg font-bold pl-4 rounded text-primary-color hover:text-primary-light-color">
-            <CiHome />
+            <CiHome className="mr-1" />
             <Link href={"/"} passHref>
               Home
             </Link>
@@ -72,10 +86,10 @@ function ViewDetailTodos({ params }: { params: { id: string } }) {
             Todo Details
           </h1>
           <p className="text-gray-700 mb-2">
-            <span className="font-semibold">User ID:</span> {todo.userId}
+            <span className="font-semibold">Title:</span> {todo.title}
           </p>
           <p className="text-gray-700 mb-2">
-            <span className="font-semibold">Title:</span> {todo.title}
+            <span className="font-semibold">User ID:</span> {todo.userId}
           </p>
           <p className="font-semibold text-gray-700 mb-2">
             Status:
