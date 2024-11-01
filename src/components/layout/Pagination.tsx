@@ -1,5 +1,8 @@
 import React from "react";
 import { FaCaretSquareLeft, FaCaretSquareRight } from "react-icons/fa";
+
+import ButtonNavigation from "../ui/ButtonNavigation";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -11,9 +14,8 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   onPageChange,
 }) => {
-  //init state  pagination
-
-  const renderPaginationButtons = () => {
+  //  Render buttons
+  const renderButtons = () => {
     const buttons = [];
     const totalDisplay = 10; // Total buttons to display
 
@@ -21,17 +23,13 @@ const Pagination: React.FC<PaginationProps> = ({
     if (totalPages <= totalDisplay) {
       for (let i = 1; i <= totalPages; i++) {
         buttons.push(
-          <button
+          <ButtonNavigation
             key={i}
             onClick={() => onPageChange(i)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === i
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
+            isActive={currentPage === i}
           >
             {i}
-          </button>
+          </ButtonNavigation>
         );
       }
     } else {
@@ -40,112 +38,85 @@ const Pagination: React.FC<PaginationProps> = ({
         // Show first pages
         for (let i = 1; i <= 6; i++) {
           buttons.push(
-            <button
+            <ButtonNavigation
               key={i}
               onClick={() => onPageChange(i)}
-              className={`w-12 px-2 py-2 rounded ${
-                currentPage === i
-                  ? "bg-primary-color text-white"
-                  : " text-text-color hover:bg-hover-color"
-              }`}
+              isActive={currentPage === i}
             >
               {i}
-            </button>
+            </ButtonNavigation>
           );
         }
+
         buttons.push(<span key="dot">...</span>);
         buttons.push(
-          <button
+          <ButtonNavigation
             key={totalPages}
             onClick={() => onPageChange(totalPages)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === totalPages
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
+            isActive={currentPage === totalPages}
           >
             {totalPages}
-          </button>
+          </ButtonNavigation>
         );
       } else if (currentPage >= totalPages - 3) {
         // Show last pages
         buttons.push(
-          <button
+          <ButtonNavigation
             key={1}
             onClick={() => onPageChange(1)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === 1
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
+            isActive={currentPage === 1}
           >
             {1}
-          </button>
+          </ButtonNavigation>
         );
         buttons.push(<span key="dot">...</span>);
         for (let i = totalPages - 5; i <= totalPages; i++) {
           buttons.push(
-            <button
+            <ButtonNavigation
               key={i}
               onClick={() => onPageChange(i)}
-              className={`w-12 px-2 py-2 rounded ${
-                currentPage === i
-                  ? "bg-primary-color text-white"
-                  : " text-text-color hover:bg-hover-color"
-              }`}
+              isActive={currentPage === i}
             >
               {i}
-            </button>
+            </ButtonNavigation>
           );
         }
       } else {
         // Show middle pages with dots
         buttons.push(
-          <button
+          <ButtonNavigation
             key={1}
             onClick={() => onPageChange(1)}
-            className={` w-12 px-2 py-2 rounded ${
-              currentPage === 1
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
+            isActive={currentPage === 1}
           >
             {1}
-          </button>
+          </ButtonNavigation>
         );
         buttons.push(<span key="dot1">...</span>);
 
         for (let i = currentPage - 2; i <= currentPage + 2; i++) {
           if (i > 0 && i <= totalPages) {
             buttons.push(
-              <button
+              <ButtonNavigation
                 key={i}
                 onClick={() => onPageChange(i)}
-                className={`w-12 px-2 py-2 rounded ${
-                  currentPage === i
-                    ? "bg-primary-color text-white"
-                    : " text-text-color hover:bg-hover-color"
-                }`}
+                isActive={currentPage === i}
               >
                 {i}
-              </button>
+              </ButtonNavigation>
             );
           }
         }
 
         buttons.push(<span key="dot2">...</span>);
         buttons.push(
-          <button
+          <ButtonNavigation
             key={totalPages}
             onClick={() => onPageChange(totalPages)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === totalPages
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
+            isActive={currentPage === totalPages}
           >
             {totalPages}
-          </button>
+          </ButtonNavigation>
         );
       }
     }
@@ -157,23 +128,23 @@ const Pagination: React.FC<PaginationProps> = ({
     <>
       {/* UI pagination */}
       <div className="flex items-center justify-center mt-4 mb-16">
-        <button
+        <ButtonNavigation
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-4 py-2 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
+          extraClasses="hover:bg-transparent hover:text-secondary-light-color"
         >
-          <FaCaretSquareLeft size={28} />
-        </button>
+          <FaCaretSquareLeft size={32} />
+        </ButtonNavigation>
 
-        {renderPaginationButtons()}
+        {renderButtons()}
 
-        <button
+        <ButtonNavigation
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-4 py-1 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
+          extraClasses="hover:bg-transparent hover:text-secondary-light-color "
         >
-          <FaCaretSquareRight size={28} />
-        </button>
+          <FaCaretSquareRight size={32} />
+        </ButtonNavigation>
       </div>
     </>
   );
