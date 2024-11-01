@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
-import AppSidebar from "@/components/app.sidebar";
+import LayoutSidebar from "@/components/layout/LayoutSidebar";
 
 export const metadata: Metadata = {
   title: "Todo list",
@@ -19,7 +19,7 @@ export default function RootLayout({
         <div className="h-screen flex justify-center">
           {/* Sidebar */}
           <div className="sidebar-container lg:flex hidden">
-            <AppSidebar />
+            <LayoutSidebar />
           </div>
 
           {/* Container */}

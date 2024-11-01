@@ -5,18 +5,18 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import AppTable from "@/components/app.table";
-//icon libary
-import { FaCaretSquareLeft, FaCaretSquareRight } from "react-icons/fa";
+import AppTable from "@/components/layout/Table";
+//icon
 import { FaAngleRight } from "react-icons/fa6";
 import { CiHome } from "react-icons/ci";
+import Pagination from "@/components/layout/Pagination";
 
 function TodosPage() {
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  //init pagination
+  //6 Items / 1 page
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -75,154 +75,10 @@ function TodosPage() {
     currentPage * itemsPerPage
   );
 
-  //logic previous next
-  const goToPreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
   };
 
-  const goToNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-  };
-
-  // Logic for pagination buttons
-  const renderPaginationButtons = () => {
-    const buttons = [];
-    const totalDisplay = 10; // Total buttons to display
-
-    if (totalPages <= totalDisplay) {
-      for (let i = 1; i <= totalPages; i++) {
-        buttons.push(
-          <button
-            key={i}
-            onClick={() => setCurrentPage(i)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === i
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
-          >
-            {i}
-          </button>
-        );
-      }
-    } else {
-      // Create pagination based on the current page
-      if (currentPage < 4) {
-        // Show first pages
-        for (let i = 1; i <= 6; i++) {
-          buttons.push(
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i)}
-              className={`w-12 px-2 py-2 rounded ${
-                currentPage === i
-                  ? "bg-primary-color text-white"
-                  : " text-text-color hover:bg-hover-color"
-              }`}
-            >
-              {i}
-            </button>
-          );
-        }
-        buttons.push(<span key="dot">...</span>);
-        buttons.push(
-          <button
-            key={totalPages}
-            onClick={() => setCurrentPage(totalPages)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === totalPages
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
-          >
-            {totalPages}
-          </button>
-        );
-      } else if (currentPage >= totalPages - 3) {
-        // Show last pages
-        buttons.push(
-          <button
-            key={1}
-            onClick={() => setCurrentPage(1)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === 1
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
-          >
-            {1}
-          </button>
-        );
-        buttons.push(<span key="dot">...</span>);
-        for (let i = totalPages - 5; i <= totalPages; i++) {
-          buttons.push(
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i)}
-              className={`w-12 px-2 py-2 rounded ${
-                currentPage === i
-                  ? "bg-primary-color text-white"
-                  : " text-text-color hover:bg-hover-color"
-              }`}
-            >
-              {i}
-            </button>
-          );
-        }
-      } else {
-        // Show middle pages with dots
-        buttons.push(
-          <button
-            key={1}
-            onClick={() => setCurrentPage(1)}
-            className={` w-12 px-2 py-2 rounded ${
-              currentPage === 1
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
-          >
-            {1}
-          </button>
-        );
-        buttons.push(<span key="dot1">...</span>);
-
-        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-          if (i > 0 && i <= totalPages) {
-            buttons.push(
-              <button
-                key={i}
-                onClick={() => setCurrentPage(i)}
-                className={`w-12 px-2 py-2 rounded ${
-                  currentPage === i
-                    ? "bg-primary-color text-white"
-                    : " text-text-color hover:bg-hover-color"
-                }`}
-              >
-                {i}
-              </button>
-            );
-          }
-        }
-
-        buttons.push(<span key="dot2">...</span>);
-        buttons.push(
-          <button
-            key={totalPages}
-            onClick={() => setCurrentPage(totalPages)}
-            className={`w-12 px-2 py-2 rounded ${
-              currentPage === totalPages
-                ? "bg-primary-color text-white"
-                : " text-text-color hover:bg-hover-color"
-            }`}
-          >
-            {totalPages}
-          </button>
-        );
-      }
-    }
-
-    return buttons;
-  };
   return (
     <div className="h-screen flex flex-col px-5 pt-10">
       <ToastContainer />
@@ -252,25 +108,11 @@ function TodosPage() {
       </div>
 
       {/* UI pagination */}
-      <div className="flex items-center justify-center mt-4 mb-16">
-        <button
-          onClick={goToPreviousPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
-        >
-          <FaCaretSquareLeft size={28} />
-        </button>
-
-        {renderPaginationButtons()}
-
-        <button
-          onClick={goToNextPage}
-          disabled={currentPage === totalPages}
-          className="px-4 py-1 text-secondary-color rounded hover:text-secondary-light-color disabled:opacity-50"
-        >
-          <FaCaretSquareRight size={28} />
-        </button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

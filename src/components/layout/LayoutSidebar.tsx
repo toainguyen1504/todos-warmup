@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import profilePic from "../../public/avatar2.png";
+import profilePic from "../../../public/avatar2.png";
 import { FaAngleDown } from "react-icons/fa6";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { RiNotification2Line } from "react-icons/ri";
@@ -9,7 +9,7 @@ import { IoMdAddCircle } from "react-icons/io";
 import { WiDaySunny } from "react-icons/wi";
 import { LuCalendarDays } from "react-icons/lu";
 import { CgToday } from "react-icons/cg";
-function AppSidebar() {
+function LayoutSidebar() {
   return (
     <div className="bg-sidebar-color p-4 min-w-72 flex flex-col">
       <header className="flex justify-between">
@@ -106,4 +106,4 @@ function AppSidebar() {
   );
 }
 
-export default AppSidebar;
+export default LayoutSidebar;
